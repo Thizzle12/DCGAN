@@ -4,7 +4,7 @@
     <head>
         <link rel="stylesheet" type="text/css" href="readme_style.css">
     </head>
-    <body class"container">
+    <body class="container">
         <h1>Testing readme html</h1>
     </body>
 
