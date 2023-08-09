@@ -1,22 +1,11 @@
 # DCGAN
 
-<html>
-    <head>
-        <style>
-            .container{
-                background-color: black;
-            }
-        </style>
-    </head>
-    <body class="container">
-        <h1>Testing readme html</h1>
-    </body>
+## Examples of generated images
+<div align="center">
+    <img src="generated_images.svg" width="400" height="400" alt="css-in-readme">
+</div>
 
-</html>
-
-## The Generator
-
-## The Discriminator
+## How the model works
 
 ## Install 
 In order to run the training and the generation of images, you will need to install the requirements from the requirements file.  
