@@ -2,7 +2,11 @@
 
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="readme_style.css">
+        <style>
+            .container{
+                background-color: black;
+            }
+        </style>
     </head>
     <body class="container">
         <h1>Testing readme html</h1>
