@@ -162,3 +162,5 @@ cython_debug/
 # Environment
 DCGAN-env
 dcgan/model_dicts
+
+testpage.html
