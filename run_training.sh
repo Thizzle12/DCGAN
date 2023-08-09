@@ -1,0 +1,1 @@
+python dcgan/training/train_model.py
