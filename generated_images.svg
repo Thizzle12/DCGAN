@@ -6,7 +6,7 @@
                     background-color: gray;
                 }
             </style>
-            
+            <img src='./resources/generated_faces.png' alt="gen_faces" />
         </div>
     </foreignObject>
 </svg>

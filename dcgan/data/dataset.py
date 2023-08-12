@@ -12,19 +12,27 @@ class GANDataset(Dataset):
         self,
         file_path: str,
         img_size: int | tuple[int, int] = (64, 64),
-        img_type: str = "jpg",
+        img_types: str = ["jpg"],  # , "png"],
     ) -> None:
         super().__init__()
 
         self.file_path = file_path
-        self.file_names = [
-            file for file in glob(os.path.join(file_path, f"*.{img_type}"))
-        ]
 
-        self.transpose = T.Compose(
+        for img_type in img_types:
+            self.file_names = [
+                file for file in glob(os.path.join(file_path, f"*.{img_type}"))
+            ]
+
+        print(len(self.file_names))
+
+        self.transforms = T.Compose(
             {
-                T.Resize(img_size),
+                T.Resize(img_size, antialias=True),
                 T.ToTensor(),
+                # T.ColorJitter(brightness=0.2, hue=0.1),
+                # T.RandomPerspective(distortion_scale=0.6, p=0.5),
+                # T.RandomRotation(degrees=(0, 10)),
+                # T.RandomHorizontalFlip(p=0.5),
             }
         )
 
@@ -39,4 +47,4 @@ class GANDataset(Dataset):
         img_path = os.path.join(self.file_path, self.file_names[index])
         img = Image.open(img_path)
         img = img.convert("RGB")
-        return self.normalize_tensor(self.transpose(img))
+        return self.normalize_tensor(self.transforms(img))

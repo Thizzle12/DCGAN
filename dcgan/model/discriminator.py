@@ -1,4 +1,24 @@
 from torch import nn
+from torchvision.models import resnet50
+import torchvision
+
+
+class Discriminator2(nn.Module):
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ) -> None:
+        super().__init__(*args, **kwargs)
+        self.resnet = resnet50()
+
+        self.resnet.fc = nn.Linear(
+            512 * torchvision.models.resnet.BasicBlock.expansion,
+            2,
+        )
+
+    def forward(self, inputs):
+        return self.resnet(inputs)
 
 
 class Discriminator(nn.Module):

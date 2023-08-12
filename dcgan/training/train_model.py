@@ -9,8 +9,11 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from dcgan.data.dataset import GANDataset
-from dcgan.model.discriminator import Discriminator
+from dcgan.model.discriminator import Discriminator, Discriminator2
 from dcgan.model.generator import Generator
+import warnings
+
+warnings.filterwarnings("ignore")
 
 
 def train():
@@ -27,8 +30,13 @@ def train():
     workers = config["workers"]
     latent_dims = config["latent_dims"]
 
+    save_every_n_epoch = config["save_on_n_epoch"]
+
+    print(f"Save on epoch {save_every_n_epoch}")
+
     dataset = GANDataset(
-        file_path=r"D:\img_align_celeba",
+        file_path=r"C:\Users\thefr\Desktop\Datasets\CelebA",
+        # file_path=r"C:\Users\thefr\Desktop\Datasets\pokemon",
     )
     # Create the dataloader
     dataloader = DataLoader(
@@ -42,6 +50,7 @@ def train():
     device = torch.device("cuda:0" if (torch.cuda.is_available()) else "cpu")
 
     netD = Discriminator().to(device)
+    # netD = Discriminator2().to(device)
     netG = Generator(latent_dims=latent_dims).to(device)
 
     # Initialize the ``BCELoss`` function
@@ -102,7 +111,7 @@ def train():
                 errD_fake = criterion(output, label)
                 # Calculate the gradients for this batch, accumulated (summed) with previous gradients
                 errD_fake.backward()
-                D_G_z1 = output.mean().item()
+                # D_G_z1 = output.mean().item()
                 # Compute error of D as sum over the fake and the real batches
                 errD = errD_real + errD_fake
                 # Update D
@@ -119,7 +128,7 @@ def train():
                 errG = criterion(output, label)
                 # Calculate gradients for G
                 errG.backward()
-                D_G_z2 = output.mean().item()
+                # D_G_z2 = output.mean().item()
                 # Update G
                 optimizerG.step()
 
@@ -131,11 +140,12 @@ def train():
 
                 batch_iter += 1
 
-        # Save model.
-        torch.save(
-            netG.state_dict(),
-            os.path.join(Path.cwd(), f"dcgan/model_dicts/generator_{epoch}.pt"),
-        )
+        if epoch % save_every_n_epoch == 0:
+            # Save model.
+            torch.save(
+                netG.state_dict(),
+                os.path.join(Path.cwd(), f"dcgan/model_dicts/generator_{epoch}.pt"),
+            )
 
     print(batch_iter)
 

@@ -1,10 +1,11 @@
 lr: 1.e-4
 beta1: 0.5
-worker: 2
+workers: 2
 
-batch_size: 32
+batch_size: 64
 epochs: 5
 latent_dims: 100
+save_on_n_epoch: 1
 
 file_path: ""
 
